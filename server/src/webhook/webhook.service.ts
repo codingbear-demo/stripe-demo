@@ -119,7 +119,9 @@ export class WebhookService {
     const subscription =
       await this.stripeService.stripe.subscriptions.retrieve(subscriptionId);
 
-    const priceId = subscription.items.data[0]?.price.id;
+    const item = subscription.items.data[0];
+    const priceId = item?.price.id;
+    const periodEnd = item?.current_period_end;
 
     await this.prisma.subscription.upsert({
       where: { userId },
@@ -129,9 +131,9 @@ export class WebhookService {
         stripeSubscriptionId: subscriptionId,
         priceId,
         status: subscription.status,
-        currentPeriodEnd: new Date(
-          subscription.current_period_end * 1000,
-        ),
+        currentPeriodEnd: periodEnd
+          ? new Date(periodEnd * 1000)
+          : null,
         cancelAtPeriodEnd: subscription.cancel_at_period_end,
       },
       update: {
@@ -139,9 +141,9 @@ export class WebhookService {
         stripeSubscriptionId: subscriptionId,
         priceId,
         status: subscription.status,
-        currentPeriodEnd: new Date(
-          subscription.current_period_end * 1000,
-        ),
+        currentPeriodEnd: periodEnd
+          ? new Date(periodEnd * 1000)
+          : null,
         cancelAtPeriodEnd: subscription.cancel_at_period_end,
       },
     });
@@ -150,7 +152,9 @@ export class WebhookService {
   }
 
   private async handleSubscriptionUpdated(subscription: Stripe.Subscription) {
-    const priceId = subscription.items.data[0]?.price.id;
+    const item = subscription.items.data[0];
+    const priceId = item?.price.id;
+    const periodEnd = item?.current_period_end;
 
     const existing = await this.prisma.subscription.findUnique({
       where: { stripeSubscriptionId: subscription.id },
@@ -168,9 +172,9 @@ export class WebhookService {
       data: {
         priceId,
         status: subscription.status,
-        currentPeriodEnd: new Date(
-          subscription.current_period_end * 1000,
-        ),
+        currentPeriodEnd: periodEnd
+          ? new Date(periodEnd * 1000)
+          : null,
         cancelAtPeriodEnd: subscription.cancel_at_period_end,
       },
     });
