@@ -4,6 +4,8 @@ import configuration from './config/configuration';
 import { validate } from './config/env.validation';
 import { PrismaModule } from './prisma/prisma.module';
 import { StripeModule } from './stripe/stripe.module';
+import { AuthModule } from './auth/auth.module';
+import { BillingModule } from './billing/billing.module';
 
 @Module({
   imports: [
@@ -14,6 +16,8 @@ import { StripeModule } from './stripe/stripe.module';
     }),
     PrismaModule,
     StripeModule,
+    AuthModule,
+    BillingModule,
   ],
 })
 export class AppModule {}
