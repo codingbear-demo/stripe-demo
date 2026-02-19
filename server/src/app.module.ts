@@ -6,6 +6,7 @@ import { PrismaModule } from './prisma/prisma.module';
 import { StripeModule } from './stripe/stripe.module';
 import { AuthModule } from './auth/auth.module';
 import { BillingModule } from './billing/billing.module';
+import { WebhookModule } from './webhook/webhook.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { BillingModule } from './billing/billing.module';
     StripeModule,
     AuthModule,
     BillingModule,
+    WebhookModule,
   ],
 })
 export class AppModule {}
