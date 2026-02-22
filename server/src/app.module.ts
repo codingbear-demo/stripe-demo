@@ -19,7 +19,7 @@ import { WebhookModule } from './webhook/webhook.module';
     }),
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', '..', 'client', 'dist'),
-      exclude: ['/api/(.*)', '/webhooks/(.*)'],
+      exclude: ['/api/{*path}', '/webhooks/{*path}'],
     }),
     PrismaModule,
     StripeModule,
