@@ -18,7 +18,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         </Link>
         {user && (
           <div className="nav-right">
-            <Link to="/account" className="nav-link">
+            <Link to="/account" className="nav-cta">
               Account
             </Link>
             <span className="nav-user">{user.username}</span>

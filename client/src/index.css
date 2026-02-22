@@ -71,6 +71,21 @@ body {
   color: var(--color-primary);
 }
 
+.nav-cta {
+  background: var(--color-primary);
+  color: white;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 16px;
+  border-radius: 20px;
+  transition: background-color 0.2s;
+}
+
+.nav-cta:hover {
+  background: var(--color-primary-hover);
+}
+
 .nav-user {
   font-size: 13px;
   color: var(--color-text-secondary);
@@ -231,6 +246,10 @@ body {
 
 .pricing-card {
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
 }
 
 .pricing-card h2 {
@@ -248,6 +267,7 @@ body {
 .pricing-card ul {
   list-style: none;
   margin-bottom: 24px;
+  flex-grow: 1;
 }
 
 .pricing-card li {
@@ -265,6 +285,59 @@ body {
 
 .pricing-card.pro {
   border: 2px solid var(--color-primary);
+}
+
+.pricing-card.is-current {
+  background: linear-gradient(135deg, #f0efff 0%, #ffffff 40%);
+}
+
+.current-plan-badge {
+  position: absolute;
+  top: 16px;
+  right: -30px;
+  background: var(--color-success);
+  color: white;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 4px 40px;
+  transform: rotate(45deg);
+}
+
+.test-card-info {
+  margin-top: 40px;
+  padding: 24px;
+  background: var(--color-surface);
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius);
+}
+
+.test-card-info h3 {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  margin-bottom: 12px;
+}
+
+.test-card-info table {
+  width: 100%;
+}
+
+.test-card-info td {
+  padding: 6px 0;
+  font-size: 14px;
+}
+
+.test-card-info td:first-child {
+  color: var(--color-text-secondary);
+  width: 140px;
+}
+
+.test-card-info code {
+  background: var(--color-bg);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 13px;
 }
 
 /* Status pages */
@@ -307,13 +380,89 @@ body {
 }
 
 /* Account */
-.account-card {
+.page-account {
   max-width: 500px;
+  margin: 0 auto;
 }
 
-.account-card h2 {
+.account-card {}
+
+.account-empty {
+  text-align: center;
+}
+
+.account-empty-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--color-bg);
+  color: var(--color-text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.account-empty h2 {
   font-size: 18px;
-  margin-bottom: 16px;
+  margin-bottom: 8px;
+}
+
+.account-empty p {
+  color: var(--color-text-secondary);
+  font-size: 14px;
+  margin-bottom: 24px;
+}
+
+.account-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+
+.account-plan-label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--color-text-secondary);
+  margin-bottom: 4px;
+}
+
+.account-plan-name {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.account-plan-price {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  margin-top: 2px;
+}
+
+.account-details {
+  border-top: 1px solid var(--color-border);
+  padding-top: 16px;
+  margin-bottom: 24px;
+}
+
+.account-detail-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+}
+
+.account-detail-label {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+}
+
+.account-detail-value {
+  font-size: 14px;
+  font-weight: 500;
 }
 
 .badge {
@@ -322,7 +471,6 @@ body {
   border-radius: 20px;
   font-size: 13px;
   font-weight: 600;
-  margin-bottom: 16px;
 }
 
 .badge-active {
@@ -338,15 +486,6 @@ body {
 .badge-none {
   background: var(--color-bg);
   color: var(--color-text-secondary);
-}
-
-.subscription-details {
-  margin: 16px 0;
-}
-
-.subscription-details p {
-  font-size: 14px;
-  margin-bottom: 8px;
 }
 
 .cancel-notice {

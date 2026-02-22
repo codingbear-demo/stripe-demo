@@ -2,11 +2,13 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getSubscription, createPortalSession } from '../lib/api';
 import { getUser } from '../lib/auth';
+import { plans } from '../config/plans';
 
 interface SubscriptionData {
   status: string;
   subscription?: {
     priceId: string;
+    planName: string | null;
     currentPeriodEnd: string;
     cancelAtPeriodEnd: boolean;
     stripeStatus: string;
@@ -48,58 +50,67 @@ export default function AccountPage() {
     );
   }
 
+  const plan = plans.find((p) => p.id === data?.subscription?.planName);
+
   return (
-    <div className="page">
+    <div className="page page-account">
       <h1>Account</h1>
 
-      <div className="card account-card">
-        <h2>Subscription Status</h2>
-
-        {data?.status === 'none' ? (
-          <div>
-            <span className="badge badge-none">No Subscription</span>
-            <p>You don't have an active subscription yet.</p>
-            <Link to="/" className="btn btn-primary">
-              Choose a Plan
-            </Link>
-          </div>
-        ) : (
-          <div>
+      {data?.status === 'none' ? (
+        <div className="card account-card account-empty">
+          <div className="account-empty-icon">?</div>
+          <h2>No Active Subscription</h2>
+          <p>You don't have an active subscription yet. Choose a plan to get started.</p>
+          <Link to="/" className="btn btn-primary">
+            Choose a Plan
+          </Link>
+        </div>
+      ) : (
+        <div className="card account-card">
+          <div className="account-header">
+            <div>
+              <div className="account-plan-label">Current Plan</div>
+              <div className="account-plan-name">{plan?.name ?? 'Unknown'}</div>
+              {plan && <div className="account-plan-price">{plan.price}</div>}
+            </div>
             <span
               className={`badge ${data?.status === 'active' ? 'badge-active' : 'badge-inactive'}`}
             >
               {data?.status === 'active' ? 'Active' : 'Inactive'}
             </span>
-
-            {data?.subscription && (
-              <div className="subscription-details">
-                <p>
-                  <strong>Status:</strong> {data.subscription.stripeStatus}
-                </p>
-                <p>
-                  <strong>Current Period End:</strong>{' '}
-                  {new Date(
-                    data.subscription.currentPeriodEnd,
-                  ).toLocaleDateString()}
-                </p>
-                {data.subscription.cancelAtPeriodEnd && (
-                  <p className="cancel-notice">
-                    Subscription will cancel at period end
-                  </p>
-                )}
-              </div>
-            )}
-
-            <button
-              className="btn btn-secondary"
-              onClick={handleManage}
-              disabled={portalLoading}
-            >
-              {portalLoading ? 'Opening...' : 'Manage Subscription'}
-            </button>
           </div>
-        )}
-      </div>
+
+          {data?.subscription && (
+            <div className="account-details">
+              <div className="account-detail-row">
+                <span className="account-detail-label">Status</span>
+                <span className="account-detail-value">{data.subscription.stripeStatus}</span>
+              </div>
+              <div className="account-detail-row">
+                <span className="account-detail-label">Current Period End</span>
+                <span className="account-detail-value">
+                  {new Date(data.subscription.currentPeriodEnd).toLocaleDateString()}
+                </span>
+              </div>
+              {data.subscription.cancelAtPeriodEnd && (
+                <div className="account-detail-row">
+                  <span className="account-detail-label cancel-notice">
+                    Cancels at period end
+                  </span>
+                </div>
+              )}
+            </div>
+          )}
+
+          <button
+            className="btn btn-primary"
+            onClick={handleManage}
+            disabled={portalLoading}
+          >
+            {portalLoading ? 'Opening...' : 'Manage Subscription'}
+          </button>
+        </div>
+      )}
     </div>
   );
 }
