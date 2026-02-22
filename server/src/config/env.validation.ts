@@ -10,6 +10,7 @@ const envSchema = z.object({
   STRIPE_WEBHOOK_SECRET: z.string().startsWith('whsec_'),
   STRIPE_PRICE_BASIC: z.string().startsWith('price_'),
   STRIPE_PRICE_PRO: z.string().startsWith('price_'),
+  BASE_URL: z.string().url(),
 });
 
 export function validate(config: Record<string, unknown>) {

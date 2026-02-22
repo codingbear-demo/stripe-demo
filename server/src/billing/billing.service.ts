@@ -106,11 +106,6 @@ export class BillingService {
   }
 
   private getBaseUrl(): string {
-    const port = this.configService.get<number>('app.port');
-    const nodeEnv = this.configService.get<string>('app.nodeEnv');
-    if (nodeEnv === 'production') {
-      return process.env.BASE_URL || `http://localhost:${port}`;
-    }
-    return 'http://localhost:5173';
+    return this.configService.get<string>('app.baseUrl')!;
   }
 }
