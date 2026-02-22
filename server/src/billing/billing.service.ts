@@ -49,6 +49,8 @@ export class BillingService {
 
     if (subscription?.stripeCustomerId) {
       sessionParams.customer = subscription.stripeCustomerId;
+    } else {
+      sessionParams.customer_email = 'test@test.com';
     }
 
     const session =
@@ -68,10 +70,16 @@ export class BillingService {
 
     const isActive = ['active', 'trialing'].includes(subscription.status);
 
+    const planName =
+      Object.entries(this.prices).find(
+        ([, priceId]) => priceId === subscription.priceId,
+      )?.[0] ?? null;
+
     return {
       status: isActive ? 'active' : 'inactive',
       subscription: {
         priceId: subscription.priceId,
+        planName,
         currentPeriodEnd: subscription.currentPeriodEnd,
         cancelAtPeriodEnd: subscription.cancelAtPeriodEnd,
         stripeStatus: subscription.status,
